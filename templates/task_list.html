@@ -1,0 +1,22 @@
+{%extends "base.html"%}
+{%block title%}Home - My Task{%endblock%}
+
+{%block content%}
+    <h1>Task List</h1>
+    <h2>Dear {{ username }}!</h2>
+        <div class="row">
+            {% for task in tasks %}
+                <div class="col-md-6 mb-3">
+                    <div class="card task-card">
+                        <div class="card-body">
+                            <h5 class="card-title"><a href="{% url 'task_detail' task.pk %}">{{ task.title }}</a></h5>                            <p><strong>Priority:</strong> {{ task.get_priority_display }} | <strong>Status:</strong> {{ task.get_status_display }}</p>
+                            {% if task.deadline %}<p><strong>Deadline:</strong> {{ task.deadline }}</p>{% endif %}
+                            
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12"><p class="text-muted">No tasks created yet.</p></div>
+            {% endfor %}
+        </div>
+{% endblock %}

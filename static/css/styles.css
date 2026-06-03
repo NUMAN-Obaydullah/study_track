@@ -1,0 +1,17 @@
+body { background-color: #f4f7fb; }
+
+.navbar-brand { font-weight: 700; color: #063243; }
+.navbar .nav-link { color: rgba(255,255,255,0.9); margin-left: 0.75rem; }
+
+.jumbotron { background: linear-gradient(180deg, #ffffff, #f8f9fb); }
+
+.task-card .card-body { background: #ffffff; }
+
+/* Responsive tweaks */
+@media (max-width: 576px) {
+	.navbar .nav-link { display: block; margin: .25rem 0; }
+}
+
+.button-container { display: flex; gap: 0.5rem; background: #f8f9fb;}
+button.primary { background-color: #007bff; border: none; }
+button.primary:hover { background-color: #0056b3; }
