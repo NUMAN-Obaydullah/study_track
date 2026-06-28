@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Create Account - Study Track{% endblock %}
+{% block title %}Create User - Study Track{% endblock %}
 
 {% block content %}
 <div class="row justify-content-center align-items-center min-vh-75 animate-fade-in">
@@ -8,8 +8,8 @@
         <div class="card shadow-lg my-5">
             <div class="card-body">
                 <div class="text-center mb-4">
-                    <h3 class="card-title h3 text-black mb-1">Create Account</h3>
-                    <p class="text-muted small">Register to start tracking your study tasks</p>
+                    <h3 class="card-title h3 text-black mb-1">Create User</h3>
+                    <p class="text-muted small">Register a new user account with role permissions</p>
                 </div>
 
                 <form method="post" novalidate>
@@ -17,7 +17,8 @@
                     {{ form.non_field_errors }}
                     {% for field in form %}
                     <div class="mb-3">
-                        <label for="{{ field.id_for_label }}" class="form-label text-black fw-medium">{{ field.label }}</label>
+                        <label for="{{ field.id_for_label }}" class="form-label text-black fw-medium">{{ field.label
+                            }}</label>
                         {{ field }}
                         {% if field.help_text %}
                         <div class="form-text text-muted small">{{ field.help_text }}</div>
@@ -27,15 +28,8 @@
                         {% endfor %}
                     </div>
                     {% endfor %}
-                    <button type="submit" class="btn btn-primary w-100 py-2.5 mt-3">Register</button>
+                    <button type="submit" class="btn btn-primary w-100 py-2.5 mt-3">Create User</button>
                 </form>
-
-                <div class="mt-4 text-center">
-                    <p class="small text-muted mb-0">
-                        Already have an account? <a href="{% url 'login' %}"
-                            class="text-info fw-semibold text-decoration-none">Login</a>
-                    </p>
-                </div>
             </div>
         </div>
     </div>

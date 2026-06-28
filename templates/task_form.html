@@ -1,52 +1,52 @@
 {% extends "base.html" %}
 
-{% block title %}{% if task %}Edit Task - {{ task.title }}{% else %}Create Task{% endif %} - Study Track{% endblock %}
+{% block title %}{% if task and request.user.role == "MANAGER" %}Edit Task - {{ task.title }}{% else %}Create Task{% endif %}
+- Study Track{% endblock %}
 
 {% block content %}
-  <div class="card">
-    <div class="card-body">
-      <h3 class="card-title">{% if task %}Edit Task{% else %}Create New Task{% endif %}</h3>
-      <form method="post">
-        {% csrf_token %}
+<div class="row justify-content-center animate-fade-in">
+  <div class="col-md-8 col-lg-6">
+    <div class="card shadow-lg mt-3">
+      <div class="card-body">
+        <h3 class="card-title h4 text-black mb-4">{% if task %}Edit Task{% else %}Create New Task{% endif %}</h3>
 
-        {% comment %}
-        <!-- <div class="mb-3">
-          <label for="id_title" class="form-label">Titlesds</label>
-          <input type="text" name="title" class="form-control" id="id_title" value="{% if task %}{{ task.title }}{% endif %}" required>
-        </div>
-        <div class="mb-3">
-          <label for="id_description" class="form-label">Description</label>
-          <textarea name="description" class="form-control" id="id_description" rows="3">{% if task %}{{ task.description }}{% endif %}</textarea>
-        </div>
-        <div class="mb-3">
-          <label for="id_priority" class="form-label">Priority</label>
-          <select name="priority" class="form-control" id="id_priority">
-            <option value="1" {% if task and task.priority == 1 %}selected{% endif %}>Low</option>
-            <option value="2" {% if not task or task.priority == 2 %}selected{% endif %}>Medium</option>
-            <option value="3" {% if task and task.priority == 3 %}selected{% endif %}>High</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="id_status" class="form-label">Status</label>
-          <select name="status" class="form-control" id="id_status">
-            <option value="todo" {% if task and task.status == 'todo' %}selected{% endif %}>To Do</option>
-            <option value="in_progress" {% if task and task.status == 'in_progress' %}selected{% endif %}>In Progress</option>
-            <option value="done" {% if task and task.status == 'done' %}selected{% endif %}>Done</option>
-          </select>
-        </div>
-        <div class="mb-3">
-          <label for="id_deadline" class="form-label">Deadline</label>
-          <input type="date" name="deadline" class="form-control" id="id_deadline" value="{% if task and task.deadline %}{{ task.deadline|date:'Y-m-d' }}{% endif %}">
-        </div> -->
-        {% endcomment %}
+        <form method="post" novalidate>
+          {% csrf_token %}
 
-        {{ form.as_p }} {# form.as_dev, form.as_table, form.as_ul #}
+          {{ form.non_field_errors }}
 
-        
-        
-        <button type="submit" class="btn btn-primary">{% if task %}Update Task{% else %}Create Task{% endif %}</button>
-         <a class="btn btn-secondary ms-2" href="{% url 'task_list' %}">Cancel</a>
-      </form>
+          {% for field in form %}
+          <div class="mb-3">
+            <label for="{{ field.id_for_label }}" class="form-label text-light fw-medium">{{ field.label }}</label>
+
+            {# Check if the field is the title, a task exists, and the user is NOT a MANAGER #}
+            {% if field.name == 'title' and task and request.user.role != "MANAGER" %}
+            <input type="text" class="form-control text-muted" value="{{ field.value|default_if_none:'' }}" disabled>
+            <!-- Hidden input ensures the title value is still submitted so form validation doesn't fail -->
+            <input type="hidden" name="{{ field.html_name }}" value="{{ field.value|default_if_none:'' }}">
+            {% else %}
+            {{ field }}
+            {% endif %}
+
+            {% if field.help_text %}
+            <div class="form-text text-muted small">{{ field.help_text }}</div>
+            {% endif %}
+
+            {% for error in field.errors %}
+            <div class="invalid-feedback d-block">{{ error }}</div>
+            {% endfor %}
+          </div>
+          {% endfor %}
+
+          <div class="d-flex gap-2 mt-4 pt-3 border-top border-secondary">
+            <button type="submit" class="btn btn-primary px-4">
+              {% if task %}Update Task{% else %}Create Task{% endif %}
+            </button>
+            <a class="btn btn-secondary px-4" href="{% url 'task_list' %}">Cancel</a>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
+</div>
 {% endblock %}

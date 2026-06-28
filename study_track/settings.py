@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "study_task",
+    "users_app",
+    "phonenumber_field",
+
 ]
 
 MIDDLEWARE = [
@@ -125,3 +128,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 LOGIN_URL = "/login/"
 LOGIN_REDIRECT_URL = "/home/"
 LOGOUT_REDIRECT_URL = "/login/"
+AUTH_USER_MODEL = "users_app.CustomUser"
